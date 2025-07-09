@@ -28,117 +28,96 @@ local colors = {
   red = '#bf616a',
   green = '#a3be8c',
   yellow = '#ebcb8b',
-  blue = '#81a1c1',
+  blue = '#5e81ac',
   magenta = '#b48ead',
   cyan = '#88c0d0',
   orange = '#d08770',
   
-  -- Additional colors
-  comment = '#8597bca6',
-  string = '#a3be8c',
+  -- Semantic colors
   keyword = '#81a1c1',
-  function_name = '#88c0d0',
-  class_name = '#8fbcbb',
-  constant = '#b48ead',
-  operator = '#81a1c1',
+  string = '#a3be8c',
+  number = '#b48ead',
+  boolean = '#81a1c1',
+  constant = '#8fbcbb',
+  function_name = '#8fbcbb',
+  class_name = '#81a1c1',
   variable = '#d8dee9',
+  comment = '#5e6b7d',
+  operator = '#81a1c1',
+  
+  -- Status colors
+  error = '#bf616a',
+  warning = '#ebcb8b',
+  info = '#88c0d0',
+  hint = '#8fbcbb',
   
   -- Git colors
   git_add = '#a3be8c',
   git_change = '#ebcb8b',
   git_delete = '#bf616a',
   
-  -- LSP/Diagnostic colors
-  error = '#bf616a',
-  warning = '#ebcb8b',
-  info = '#88c0d0',
-  hint = '#8fbcbb',
-  
-  -- Special colors
-  none = 'NONE',
-  terminal_black = '#272c36',
-  terminal_bright_black = '#4c566a',
-  terminal_white = '#e5e9f0',
+  -- Terminal colors
+  terminal_black = '#2e3440',
+  terminal_bright_black = '#3b4252',
+  terminal_white = '#d8dee9',
   terminal_bright_white = '#eceff4',
 }
 
--- Helper function to set highlights
+-- Helper function to set highlight groups
 local function hi(group, opts)
   local cmd = 'highlight ' .. group
   if opts.fg then cmd = cmd .. ' guifg=' .. opts.fg end
   if opts.bg then cmd = cmd .. ' guibg=' .. opts.bg end
-  if opts.style then cmd = cmd .. ' gui=' .. opts.style end
   if opts.sp then cmd = cmd .. ' guisp=' .. opts.sp end
+  if opts.style then cmd = cmd .. ' gui=' .. opts.style end
   vim.cmd(cmd)
 end
 
--- Editor highlights
+-- Base highlights
 hi('Normal', { fg = colors.fg, bg = colors.bg })
 hi('NormalFloat', { fg = colors.fg, bg = colors.bg_alt })
 hi('NormalNC', { fg = colors.fg, bg = colors.bg })
+
+-- UI elements
 hi('Cursor', { fg = colors.bg, bg = colors.cursor })
 hi('CursorLine', { bg = colors.line_highlight })
 hi('CursorColumn', { bg = colors.line_highlight })
-hi('LineNr', { fg = '#4c566a' })
-hi('CursorLineNr', { fg = '#687692' })
+hi('LineNr', { fg = colors.comment })
+hi('CursorLineNr', { fg = colors.fg_alt })
 hi('SignColumn', { bg = colors.bg })
-hi('ColorColumn', { bg = colors.selection })
+hi('ColorColumn', { bg = colors.bg_alt })
 hi('Folded', { fg = colors.comment, bg = colors.bg_alt })
 hi('FoldColumn', { fg = colors.comment, bg = colors.bg })
 hi('VertSplit', { fg = colors.border })
-hi('WinSeparator', { fg = colors.border })
-
--- Visual mode
-hi('Visual', { bg = colors.selection })
-hi('VisualNOS', { bg = colors.selection })
-
--- Search
-hi('Search', { fg = colors.bg, bg = colors.cyan })
-hi('IncSearch', { fg = colors.bg, bg = colors.cyan })
-hi('CurSearch', { fg = colors.bg, bg = colors.cyan })
-
--- Pmenu (completion menu)
-hi('Pmenu', { fg = colors.fg_alt, bg = colors.bg_alt })
-hi('PmenuSel', { fg = colors.fg_alt, bg = colors.selection })
-hi('PmenuSbar', { bg = colors.border })
-hi('PmenuThumb', { bg = colors.selection })
-
--- Statusline
 hi('StatusLine', { fg = colors.fg, bg = colors.bg_alt })
 hi('StatusLineNC', { fg = colors.comment, bg = colors.bg_alt })
+hi('Tabline', { fg = colors.comment, bg = colors.bg_alt })
+hi('TablineFill', { bg = colors.bg_alt })
+hi('TablineSel', { fg = colors.fg_alt, bg = colors.bg })
+hi('WildMenu', { fg = colors.bg, bg = colors.cyan })
+hi('EndOfBuffer', { fg = colors.bg })
 
--- Tabline
-hi('TabLine', { fg = colors.comment, bg = colors.bg_alt })
-hi('TabLineFill', { bg = colors.bg_alt })
-hi('TabLineSel', { fg = colors.fg_alt, bg = colors.bg })
+-- Search and selection
+hi('Search', { fg = colors.bg, bg = colors.yellow })
+hi('IncSearch', { fg = colors.bg, bg = colors.orange })
+hi('Visual', { bg = colors.selection })
+hi('VisualNOS', { bg = colors.selection })
+hi('MatchParen', { fg = colors.cyan, style = 'bold' })
 
 -- Messages
 hi('ErrorMsg', { fg = colors.error })
 hi('WarningMsg', { fg = colors.warning })
-hi('ModeMsg', { fg = colors.info })
-hi('MoreMsg', { fg = colors.info })
-hi('Question', { fg = colors.info })
-
--- Diff
-hi('DiffAdd', { fg = colors.git_add, bg = colors.bg })
-hi('DiffChange', { fg = colors.git_change, bg = colors.bg })
-hi('DiffDelete', { fg = colors.git_delete, bg = colors.bg })
-hi('DiffText', { fg = colors.git_change, bg = colors.bg, style = 'bold' })
-
--- Spell
-hi('SpellBad', { sp = colors.error, style = 'undercurl' })
-hi('SpellCap', { sp = colors.warning, style = 'undercurl' })
-hi('SpellLocal', { sp = colors.info, style = 'undercurl' })
-hi('SpellRare', { sp = colors.hint, style = 'undercurl' })
+hi('MoreMsg', { fg = colors.green })
+hi('Question', { fg = colors.cyan })
 
 -- Syntax highlighting
 hi('Comment', { fg = colors.comment, style = 'italic' })
 hi('Constant', { fg = colors.constant })
 hi('String', { fg = colors.string })
-hi('Character', { fg = colors.yellow })
-hi('Number', { fg = colors.constant })
-hi('Boolean', { fg = colors.constant })
-hi('Float', { fg = colors.constant })
+hi('Character', { fg = colors.string })
+hi('Number', { fg = colors.number })
+hi('Boolean', { fg = colors.boolean })
+hi('Float', { fg = colors.number })
 hi('Identifier', { fg = colors.variable })
 hi('Function', { fg = colors.function_name })
 hi('Statement', { fg = colors.keyword })
@@ -157,46 +136,88 @@ hi('Type', { fg = colors.class_name })
 hi('StorageClass', { fg = colors.keyword })
 hi('Structure', { fg = colors.class_name })
 hi('Typedef', { fg = colors.class_name })
-hi('Special', { fg = colors.cyan })
-hi('SpecialChar', { fg = colors.yellow })
+hi('Special', { fg = colors.orange })
+hi('SpecialChar', { fg = colors.orange })
 hi('Tag', { fg = colors.blue })
-hi('Delimiter', { fg = colors.fg_alt })
+hi('Delimiter', { fg = colors.fg })
 hi('SpecialComment', { fg = colors.comment })
 hi('Debug', { fg = colors.red })
-hi('Underlined', { style = 'underline' })
+hi('Underlined', { fg = colors.cyan, style = 'underline' })
 hi('Ignore', { fg = colors.comment })
 hi('Error', { fg = colors.error })
-hi('Todo', { fg = colors.yellow, style = 'bold' })
+hi('Todo', { fg = colors.bg, bg = colors.yellow, style = 'bold' })
 
--- TreeSitter highlights
+-- Treesitter highlights
+hi('@annotation', { fg = colors.orange })
+hi('@attribute', { fg = colors.orange })
+hi('@boolean', { fg = colors.boolean })
+hi('@character', { fg = colors.string })
 hi('@comment', { fg = colors.comment, style = 'italic' })
+hi('@conditional', { fg = colors.keyword })
 hi('@constant', { fg = colors.constant })
-hi('@constant.builtin', { fg = colors.blue })
-hi('@constant.macro', { fg = colors.blue })
-hi('@string', { fg = colors.string })
-hi('@string.escape', { fg = colors.yellow })
-hi('@string.special', { fg = colors.yellow })
-hi('@character', { fg = colors.yellow })
-hi('@number', { fg = colors.constant })
-hi('@boolean', { fg = colors.constant })
-hi('@float', { fg = colors.constant })
+hi('@constant.builtin', { fg = colors.constant })
+hi('@constant.macro', { fg = colors.constant })
+hi('@constructor', { fg = colors.function_name })
+hi('@error', { fg = colors.error })
+hi('@exception', { fg = colors.keyword })
+hi('@field', { fg = colors.variable })
+hi('@float', { fg = colors.number })
 hi('@function', { fg = colors.function_name })
 hi('@function.builtin', { fg = colors.function_name })
-hi('@function.macro', { fg = colors.blue })
-hi('@parameter', { fg = colors.variable })
-hi('@method', { fg = colors.function_name })
-hi('@field', { fg = colors.variable })
-hi('@property', { fg = colors.variable })
-hi('@constructor', { fg = colors.class_name })
-hi('@conditional', { fg = colors.keyword })
-hi('@repeat', { fg = colors.keyword })
-hi('@label', { fg = colors.keyword })
-hi('@operator', { fg = colors.operator })
+hi('@function.macro', { fg = colors.function_name })
+hi('@include', { fg = colors.blue })
 hi('@keyword', { fg = colors.keyword })
-hi('@exception', { fg = colors.keyword })
-hi('@variable', { fg = colors.variable })
+hi('@keyword.function', { fg = colors.keyword })
+hi('@keyword.operator', { fg = colors.keyword })
+hi('@keyword.return', { fg = colors.keyword })
+hi('@label', { fg = colors.keyword })
+hi('@method', { fg = colors.function_name })
+hi('@namespace', { fg = colors.class_name })
+hi('@none', { fg = colors.fg })
+hi('@number', { fg = colors.number })
+hi('@operator', { fg = colors.operator })
+hi('@parameter', { fg = colors.variable })
+hi('@parameter.reference', { fg = colors.variable })
+hi('@property', { fg = colors.variable })
+hi('@punctuation.bracket', { fg = colors.fg })
+hi('@punctuation.delimiter', { fg = colors.fg })
+hi('@punctuation.special', { fg = colors.orange })
+hi('@repeat', { fg = colors.keyword })
+hi('@string', { fg = colors.string })
+hi('@string.escape', { fg = colors.orange })
+hi('@string.regex', { fg = colors.string })
+hi('@string.special', { fg = colors.orange })
+hi('@symbol', { fg = colors.constant })
+hi('@tag', { fg = colors.blue })
+hi('@tag.attribute', { fg = colors.orange })
+hi('@tag.delimiter', { fg = colors.fg })
+hi('@text', { fg = colors.fg })
+hi('@text.bold', { fg = colors.fg, style = 'bold' })
+hi('@text.emphasis', { fg = colors.fg, style = 'italic' })
+hi('@text.underline', { fg = colors.fg, style = 'underline' })
+hi('@text.strike', { fg = colors.fg, style = 'strikethrough' })
+hi('@text.title', { fg = colors.cyan, style = 'bold' })
+hi('@text.literal', { fg = colors.string })
+hi('@text.uri', { fg = colors.cyan, style = 'underline' })
+hi('@text.math', { fg = colors.blue })
+hi('@text.reference', { fg = colors.blue })
+hi('@text.environment', { fg = colors.blue })
+hi('@text.environment.name', { fg = colors.class_name })
+hi('@text.note', { fg = colors.info })
+hi('@text.warning', { fg = colors.warning })
+hi('@text.danger', { fg = colors.error })
 hi('@type', { fg = colors.class_name })
+hi('@type.builtin', { fg = colors.class_name })
 hi('@type.definition', { fg = colors.class_name })
+hi('@type.qualifier', { fg = colors.keyword })
+hi('@variable', { fg = colors.variable })
+hi('@variable.builtin', { fg = colors.variable })
+
+-- Additional treesitter highlights
+hi('@conditional.ternary', { fg = colors.keyword })
+hi('@constructor.lua', { fg = colors.fg })
+hi('@function.call', { fg = colors.function_name })
+hi('@keyword.conditional', { fg = colors.keyword })
 hi('@storageclass', { fg = colors.keyword })
 hi('@namespace', { fg = colors.class_name })
 hi('@include', { fg = colors.blue })
@@ -265,6 +286,47 @@ hi('TelescopePreviewTitle', { fg = colors.cyan })
 hi('TelescopeResultsNormal', { fg = colors.fg, bg = colors.bg_alt })
 hi('TelescopeResultsBorder', { fg = colors.border, bg = colors.bg_alt })
 hi('TelescopeResultsTitle', { fg = colors.cyan })
+
+-- Completion menu (nvim-cmp)
+hi('Pmenu', { fg = colors.fg, bg = colors.bg_alt })
+hi('PmenuSel', { fg = colors.fg_alt, bg = colors.selection })
+hi('PmenuSbar', { bg = colors.bg_alt })
+hi('PmenuThumb', { bg = colors.border })
+hi('CmpItemAbbr', { fg = colors.fg })
+hi('CmpItemAbbrDeprecated', { fg = colors.comment, style = 'strikethrough' })
+hi('CmpItemAbbrMatch', { fg = colors.cyan, style = 'bold' })
+hi('CmpItemAbbrMatchFuzzy', { fg = colors.cyan, style = 'bold' })
+hi('CmpItemKind', { fg = colors.blue })
+hi('CmpItemKindText', { fg = colors.fg })
+hi('CmpItemKindMethod', { fg = colors.function_name })
+hi('CmpItemKindFunction', { fg = colors.function_name })
+hi('CmpItemKindConstructor', { fg = colors.function_name })
+hi('CmpItemKindField', { fg = colors.variable })
+hi('CmpItemKindVariable', { fg = colors.variable })
+hi('CmpItemKindClass', { fg = colors.class_name })
+hi('CmpItemKindInterface', { fg = colors.class_name })
+hi('CmpItemKindModule', { fg = colors.class_name })
+hi('CmpItemKindProperty', { fg = colors.variable })
+hi('CmpItemKindUnit', { fg = colors.constant })
+hi('CmpItemKindValue', { fg = colors.constant })
+hi('CmpItemKindEnum', { fg = colors.class_name })
+hi('CmpItemKindKeyword', { fg = colors.keyword })
+hi('CmpItemKindSnippet', { fg = colors.string })
+hi('CmpItemKindColor', { fg = colors.red })
+hi('CmpItemKindFile', { fg = colors.blue })
+hi('CmpItemKindReference', { fg = colors.blue })
+hi('CmpItemKindFolder', { fg = colors.blue })
+hi('CmpItemKindEnumMember', { fg = colors.constant })
+hi('CmpItemKindConstant', { fg = colors.constant })
+hi('CmpItemKindStruct', { fg = colors.class_name })
+hi('CmpItemKindEvent', { fg = colors.orange })
+hi('CmpItemKindOperator', { fg = colors.operator })
+hi('CmpItemKindTypeParameter', { fg = colors.class_name })
+
+-- LSP code suggestions/inlay hints
+hi('LspInlayHint', { fg = colors.comment, bg = colors.bg_alt, style = 'italic' })
+hi('LspCodeLens', { fg = colors.comment, style = 'italic' })
+hi('LspSignatureActiveParameter', { fg = colors.cyan, style = 'bold' })
 
 -- Terminal colors
 vim.g.terminal_color_0 = colors.terminal_black
